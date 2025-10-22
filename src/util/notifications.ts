@@ -1,6 +1,6 @@
-// src/util/notifications.ts
 import { Platform } from "react-native";
 
+// Dispara alertas de notificação: usa window.alert na web e expo-notifications no mobile
 type Props = { title: string; body: string; date?: Date };
 
 export async function scheduleNotification({ title, body, date }: Props) {
@@ -8,7 +8,7 @@ export async function scheduleNotification({ title, body, date }: Props) {
     window.alert(`[WEB] Notificação: ${title}\n${body}`);
     return;
   }
-  // Mobile notifications (apenas no físico)
+  // No mobile físico, usa expo-notifications
   const Notifications = require('expo-notifications');
   await Notifications.scheduleNotificationAsync({
     content: { title, body },

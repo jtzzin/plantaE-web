@@ -1,8 +1,8 @@
-// src/components/PlatformDateTimePicker.tsx
 import React from "react";
 import { Platform } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
+// Componente de data/hora: adapta input para web e mobile.
 interface Props {
   value: Date;
   onChange: (event: DateTimePickerEvent | null, date?: Date) => void;
@@ -10,8 +10,8 @@ interface Props {
 }
 
 export function PlatformDateTimePicker({ value, onChange, mode = "date" }: Props) {
+  // Para web: usa <input> nativo HTML5, com estilo visual
   if (Platform.OS === "web") {
-    // Input ajustado para web
     return (
       <input
         type={mode === "time" ? "time" : mode === "datetime" ? "datetime-local" : "date"}
@@ -21,6 +21,7 @@ export function PlatformDateTimePicker({ value, onChange, mode = "date" }: Props
             : value.toISOString().slice(0, mode === "date" ? 10 : 16)
         }
         onChange={e => {
+          // Captura valor do input e transforma em objeto Date
           const v = e.target.value;
           let d: Date;
           if (mode === "date") d = new Date(v + "T" + value.toTimeString().slice(0, 8));
@@ -31,17 +32,23 @@ export function PlatformDateTimePicker({ value, onChange, mode = "date" }: Props
           } else d = new Date(v);
           onChange(null, d);
         }}
-        style={{ fontSize: 16, margin: 7, borderRadius: 6, padding: 7 }}
+        style={{
+          fontSize: 18, margin: "12px 0", borderRadius: 10,
+          border: "2px solid #4ADE80", padding: "10px 18px", background: "#181b24", color: "#fff"
+        }}
       />
     );
   }
+  // Para mobile: usa DateTimePicker nativo
   return (
     <DateTimePicker
       value={value}
       onChange={onChange}
       mode={mode}
       display={Platform.OS === "ios" ? "spinner" : "default"}
-      style={{ margin: 7 }}
+      style={{ margin: 12 }}
+      textColor="#4ADE80"
+      themeVariant="dark"
     />
   );
 }
