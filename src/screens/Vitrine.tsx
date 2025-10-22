@@ -1,4 +1,3 @@
-// src/screens/Vitrine.tsx
 import React, { useState, useMemo } from "react";
 import { View, Text, ScrollView, TouchableOpacity, FlatList, Dimensions } from "react-native";
 
@@ -6,18 +5,16 @@ const GROUPS = ["Briófitas", "Pteridófitas", "Gimnospermas", "Angiospermas"];
 const MVP_PLANTS = [
   { id: "1", name: "Samambaia", group: "Pteridófitas", summary: "Sombra, umidade." },
   { id: "2", name: "Monstera deliciosa", group: "Angiospermas", summary: "Meia-sombra, regas médias." },
-  { id: "3", name: "Cacto Cereus", group: "Gimnospermas", summary: "Sol, substrato seco." },
+  { id: "3", name: "Cacto Cereus", group: "Gimnospermas", summary: "Sol, substrato seco." }
 ];
 
-type VitrineProps = { navigation: any };
-
-export default function Vitrine({ navigation }: VitrineProps) {
+export default function Vitrine({ navigation }: any) {
   const [activeGroup, setActiveGroup] = useState(GROUPS[0]);
   const plantasPorGrupo = useMemo(
     () => MVP_PLANTS.filter((p) => p.group === activeGroup),
     [activeGroup]
   );
-
+  
   return (
     <View style={{ flex: 1, backgroundColor: "#10141a" }}>
       <View style={{ paddingVertical: 38, paddingHorizontal: 18 }}>
@@ -56,7 +53,7 @@ export default function Vitrine({ navigation }: VitrineProps) {
         ListEmptyComponent={<Text style={{ color: "#fff", alignSelf: "center" }}>Nenhuma planta nesse grupo.</Text>}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => {/* navegar para detalhes da planta */}}
+            onPress={() => navigation.navigate("Relogio", { plantId: item.id })}
             style={{
               backgroundColor: "#202534", borderRadius: 20, padding: 16, alignItems: "center",
               width: Dimensions.get("window").width / 2 - 25,
